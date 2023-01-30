@@ -9,10 +9,15 @@ public class HelloProcessing extends PApplet
 	{
 	}
 
-	public void setup() {
+	public void setup()
+	{
+		colorMode(HSB);
+		background(0);
 	}
-	
+
 	public void draw()
 	{
+		stroke(255);
+		line(10, 10, 100, 100);
 	}
 }
