@@ -4,64 +4,64 @@ import processing.core.PApplet;
 
 public class BugZap extends PApplet
 {
+	// Attributes
+	private int playerX;
+	private int playerY;
+	private int playerWidth;
 
 	public void settings()
 	{
-		size(500, 500);
+		// size(500, 500);
+		fullScreen();
 	}
 
-	public void setup() {
+	public void setup()
+	{
 		colorMode(HSB);
 		background(0);
 
-		x1 = random(0, width);
-		x2 = random(0, width);
-		y1 = random(0, height);
-		y2 = random(0, height);
-
-		float range = 5;
-
-		x1dir = random(-range, range);
-		x2dir = random(-range, range);
-		y1dir = random(-range, range);
-		y2dir = random(-range, range);
+		this.playerX = width / 2;
+		this.playerY = height - 100;
 
 		smooth();
-		
 	}
 
-	float x1, y1, x2, y2;
-	float x1dir, x2dir, y1dir, y2dir;
-	float c = 0;
-	
 	public void draw()
-	{	
+	{
+		background(0);
+
+		// drawplayer(playerX, playerY, playerWidth);
+		drawPlayer(this.playerX, this.playerY, 100);
+
+
+	}
+
+	public void drawPlayer(float x, float y, float w)
+	{
+		float h = w/2;
+		fill(255);
+		stroke(255);
 		strokeWeight(2);
-		stroke(c, 255, 255);
-		c = (c + 1f) % 255;
-		line(x1, y1, x2, y2);
 
-		x1 += x1dir;
-		x2 += x2dir;
-		y1 += y1dir;
-		y2 += y2dir;
-		
-		if (x1 < 0 || x1 > width)
-		{
-			x1dir = - x1dir;
-		}
-		if (y1 < 0 || y1 > height)
-		{
-			y1dir = - y1dir;
-		}
+		line(x, y, x, y - h);
+		// rect(x, y, w, h);
+	}
 
-		if (x2 < 0 || x2 > width)
+	public void keyPressed()
+	{
+		if (keyCode == LEFT)
 		{
-			x2dir = - x2dir;
+			System.out.println("Left");
+			this.playerX -= 10;
 		}
-		if (y2 < 0 || y2 > height)
+		if (keyCode == RIGHT)
 		{
-			y2dir = - y2dir;
+			System.out.println("Right");
+			this.playerX += 10;
+		}
+		if (key == ' ')
+		{
+			System.out.println("Space");
 		}
 	}
 }
