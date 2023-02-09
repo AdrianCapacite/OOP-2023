@@ -22,12 +22,6 @@ public class Main
         processing.core.PApplet.runSketch( a, new BugZap());
     }
 
-	public static void conditionals()
-	{
-		String[] a = {"MAIN"};
-		processing.core.PApplet.runSketch( a, new Conditionals());
-	}
-
 	public static void main(String[] args)
 	{
 		System.out.println("Hello world");
