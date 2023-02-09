@@ -10,6 +10,7 @@ public class Loops extends PApplet {
 	int red;
 	int cyan;
 	int black;
+	int stars[][] = new int[50][5];
 
 
 	// HoverBoxes
@@ -43,6 +44,18 @@ public class Loops extends PApplet {
 
 		// Mode 1.3
 		this.hoverBoxes[6] = new HoverBox(width/3, 2*height/5, width/3, height/5, cyan, red);
+
+		// Generate random points, sizes, and colors for each star
+		for (int i = 0; i < stars.length; i++) {
+			stars[i] = new int[] {
+				(int) random(0, width),
+				(int) random(0, height),
+				(int) random(20, 100),
+				(int) random(5, 8),
+				color(random(0, 360), 100, 100)
+			};
+		}
+
 	}
 
 
@@ -64,6 +77,7 @@ public class Loops extends PApplet {
 
 
 		switch (mode) {
+			// Show if mouse is hovering over boxes
 			case 0: {
 				switch (submode) {
 					case 0: {
@@ -85,6 +99,7 @@ public class Loops extends PApplet {
 				}
 				break;
 			}
+			// Rainbow
 			case 1: {
 				for (int i = 0; i < 10; i++) {
 					fill(360/10*i, 100, 100);
@@ -92,6 +107,7 @@ public class Loops extends PApplet {
 				}
 				break;
 			}
+			// Rainbow cross
 			case 2: {
 				for (int i = 0; i < 10; i++) {
 					fill(360/10*i, 100, 100);
@@ -100,6 +116,7 @@ public class Loops extends PApplet {
 				}
 				break;
 			}
+			// Rainobow circle
 			case 3: {
 				for (int i = 0; i < 10; i++) {
 					fill(360/10*(9-i), 100, 100);
@@ -107,17 +124,18 @@ public class Loops extends PApplet {
 				}
 				break;
 			}
+			// Rainbow circle grid
 			case 4: {
 				background(0,0,100);
 				for (int i = 0; i < 10; i++) {
-					// Circle with rect
 					for (int j = 0; j < 10; j++) {
-						fill(360/100*(i+1)*(j+1), 100, 100);
+						fill(18 * i + 18 * j, 100, 100);
 						circle(width/10*i + width/20, height/10*j + height/20, width/10);
 					}
 				}
 				break;
 			}
+			// Green Grid
 			case 5: {
 				for (int i = 0; i < 11; i++) {
 					fill(0,0,100);
@@ -135,6 +153,7 @@ public class Loops extends PApplet {
 				}
 				break;
 			}
+			// Checkerboard
 			case 6: {
 				int brightness = 1;
 				for (int i = 0; i < 20; i++) {
@@ -147,6 +166,7 @@ public class Loops extends PApplet {
 				}
 				break;
 			}
+			// Five lines
 			case 7: {
 				background(0,0,100);
 				stroke(0,0,0);
@@ -156,21 +176,61 @@ public class Loops extends PApplet {
 				}
 				break;
 			}
+			// Polygons
 			case 8: {
-				stroke(0,0,0);
-				for (int i = 0; i < 5; i++) {
-					float angle1 = TWO_PI/5*i - TWO_PI/4;
-					float angle2 = TWO_PI/5*(i+1) - TWO_PI/4;
-					line(width/2 + 100*cos(angle1), height/2 + 100*sin(angle1), width/2 + 100*cos(angle2), height/2 + 100*sin(angle2));
-				}
+				stroke(0,0,100);
+				drawPolygon(width/2, height/2, 100, round(20*mouseX/width) + 3);
+				// for (int i = 0; i < 5; i++) {
+				// 	float angle1 = TWO_PI/5*i - TWO_PI/4;
+				// 	float angle2 = TWO_PI/5*(i+1) - TWO_PI/4;
+				// 	line(width/2 + 100*cos(angle1), height/2 + 100*sin(angle1), width/2 + 100*cos(angle2), height/2 + 100*sin(angle2));
+				// }
 				break;
 			}
 			case 9: {
+				// drawStar(width/2, height/2, 100, 50, 5);
+				for (int i = 0; i < stars.length; i++) {
+					stroke(stars[i][4]);
+					drawStar(stars[i][0], stars[i][1], stars[i][2], stars[i][2]/2, stars[i][3]);
+				}
 				break;
 			}
 		}
 
 
+	}
+
+	/**
+	 * Draws a polygon with the given number of sides and radius
+	 * @param x center x
+	 * @param y center y
+	 * @param r radius
+	 * @param s number of sides
+	 */
+	public void drawPolygon(int x, int y, int r, int s) {
+		for (int i = 0; i < s; i++) { //draws a line between each pair of points
+			float angle1 = TWO_PI/s*i - TWO_PI/4;
+			float angle2 = TWO_PI/s*(i+1) - TWO_PI/4;
+			line(x + r*cos(angle1), y + r*sin(angle1), x + r*cos(angle2), y + r*sin(angle2));
+		}
+	}
+
+	/**
+	 * Draws a star with the given number of points and radius
+	 * @param x center x
+	 * @param y center y
+	 * @param ri radius inner
+	 * @param ro radius outer;
+	 * @param s number of points
+	 */
+	public void drawStar(int x, int y, int ro, int ri, int s) {
+		for (int i = 0; i < s; i++) {
+			float angle1 = TWO_PI/s*i - TWO_PI/4;
+			float angle2 = TWO_PI/s*(i+0.5f) - TWO_PI/4;
+			float angle3 = TWO_PI/s*(i+1) - TWO_PI/4;
+			line(x + ro*cos(angle1), y + ro*sin(angle1), x + ri*cos(angle2), y + ri*sin(angle2));
+			line(x + ri*cos(angle2), y + ri*sin(angle2), x + ro*cos(angle3), y + ro*sin(angle3));
+		}
 	}
 
 	class HoverBox {
@@ -197,18 +257,6 @@ public class Loops extends PApplet {
 
 		boolean isHovering() {
 			return mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h;
-		}
-	}
-
-	class HSB {
-		public int h;
-		public int s;
-		public int b;
-
-		HSB(int h, int s, int b) {
-			this.h = h;
-			this.s = s;
-			this.b = b;
 		}
 	}
 }
