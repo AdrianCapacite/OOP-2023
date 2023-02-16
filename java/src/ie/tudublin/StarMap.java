@@ -1,21 +1,42 @@
 package ie.tudublin;
 
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 import processing.data.Table;
 import processing.data.TableRow;
 
 public class StarMap extends PApplet
 {
+	ArrayList<Star> stars = new ArrayList<Star>();
 	public void settings()
 	{
 		size(800, 800);
 	}
 
 	public void setup() {
-		colorMode(HSB);
+		colorMode(RGB);
 		background(0);
 
 		smooth();
+
+		loadStars();
+		printStars();
+	}
+
+	public void renderStars()
+	{
+		for(Star s:stars)
+		{
+			s.render(this);
+		}
+	}
+
+	void printStars()
+	{
+		for (Star star : stars) {
+			println(star);
+		}
 	}
 
 	public void loadStars()
@@ -24,14 +45,15 @@ public class StarMap extends PApplet
 		for(TableRow tr:table.rows())
 		{
 			Star s = new Star(tr);
-			println(s);
+			stars.add(s);
 		}
 	}
 
 
 	public void drawGrid()
 	{
-		stroke(255);
+		stroke(255,0,255);
+		strokeWeight(1);
 		float border = width * 0.1f;
 
 		for(int i = -5 ; i <= 5 ; i ++)
@@ -61,5 +83,7 @@ public class StarMap extends PApplet
 		strokeWeight(2);
 
 		drawGrid();
+
+		renderStars();
 	}
 }
