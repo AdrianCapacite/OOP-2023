@@ -17,7 +17,7 @@ public class StarMap extends PApplet {
 		background(0);
 		smooth();
 		loadStars();
-		printStars();
+		// printStars();
 	}
 
 	public void draw() {
