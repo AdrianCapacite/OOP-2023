@@ -26,13 +26,13 @@ public class Star {
     public Star(TableRow row) {
         // Constructor chaining
         this(
-            row.getInt("Hab?") == 1,
-            row.getString("Display Name"),
-            row.getFloat("Distance"),
-            row.getFloat("Xg"),
-            row.getFloat("Yg"),
-            row.getFloat("Zg"),
-            row.getFloat("AbsMag")
+            row.getInt("Hab?") == 1, // Is this star habitable?
+            row.getString("Display Name"), // The name of the star
+            row.getFloat("Distance"), // Distance from Sol
+            row.getFloat("Xg"), // X coordinate from Sol
+            row.getFloat("Yg"), // Y coordinate from Sol
+            row.getFloat("Zg"), // Z coordinate from Sol
+            row.getFloat("AbsMag") // Absolute magnitude
         );
     }
 
@@ -53,6 +53,9 @@ public class Star {
         this.displayName = displayName;
     }
 
+    /**
+     * @return the distance from Sol
+     */
     public float getDistance() {
         return distance;
     }
@@ -99,6 +102,16 @@ public class Star {
                 + Yg + ", Zg=" + Zg + ", absMag=" + absMag + "]";
     }
 
+    /**
+     * Calculate the distance to another star
+     * @param other The other star to calculate the distance to
+     * @return The distance to the other star
+     */
+    public float getDistanceTo(Star other) {
+        return PApplet.dist(Xg, Yg, Zg, other.Xg, other.Yg, other.Zg);
+    }
+
+
     public void render(PApplet p)
     {
         float border = p.width * 0.1f;
@@ -119,5 +132,4 @@ public class Star {
 
         p.noFill();
     }
-
 }
