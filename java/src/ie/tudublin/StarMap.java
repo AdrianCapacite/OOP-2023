@@ -101,14 +101,6 @@ public class StarMap extends PApplet
 
 	}
 
-	float map1(float a, float b, float c, float d, float e)
-	{
-		float r1 = c-b; // percentage of
-		float r2 = e-d;
-		float dist = a-b;
-
-		return (dist/r1)*r2 + d;
-	}
 
 	public void draw()
 	{
