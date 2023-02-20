@@ -18,6 +18,7 @@ public class StarMap extends PApplet {
 		smooth();
 		loadStars();
 		// printStars();
+		border = width * 0.1f;
 	}
 
 	public void draw() {
@@ -25,6 +26,8 @@ public class StarMap extends PApplet {
 		strokeWeight(2);
 		drawGrid();
 		renderStars();
+		displayInfo();
+		renderLine();
 		// Display information
 	}
 
@@ -34,9 +37,9 @@ public class StarMap extends PApplet {
 
 	// StarMap methods and variables ===========================================
 	ArrayList<Star> stars = new ArrayList<Star>();
-	Star[] selectedStars = new Star[2];
+	public Star[] selectedStars = new Star[2];
 	private int selectedStarsIndex = 0;
-	float border = width * 0.1f;
+	float border;
 
 	/**
 	 * Selects a star if point(x, y) are within the bounds of the star
@@ -58,7 +61,56 @@ public class StarMap extends PApplet {
 					selectedStars = new Star[2];
 				}
 				selectedStars[selectedStarsIndex++] = star;
+				return;
 			}
+		}
+		selectedStarsIndex = 0;
+		selectedStars = new Star[2];
+	}
+
+	void displayInfo() {
+		textAlign(LEFT, TOP);
+		String info = "X: " + mouseX + " Y: " + mouseY;
+
+		// No stars selected
+		if (selectedStars[0] == null
+			&& selectedStars[1] == null) {
+			info += "\n Select a star";
+		}
+
+		// Two stars selected else one star selected
+		if (selectedStars[0] != null
+			&& selectedStars[1] != null) {
+			String star1Name = selectedStars[0].getDisplayName();
+			String star2Name = selectedStars[1].getDisplayName();
+			float distance = selectedStars[0].distanceTo(selectedStars[1]);
+			info += "\nDistance from" + star1Name + " to " + star2Name +
+					" is " + distance + " parsecs";
+		} else if (selectedStars[0] != null) {
+			info += "\n" + selectedStars[0].toString();
+		}
+
+		circle(border, height - border, 10);
+		text(info, border, height - border);
+	}
+
+	/**
+	 * Render a line between star and mouse or other star
+	 */
+	void renderLine() {
+		float x;
+		float y;
+		if (selectedStars[1] != null) {
+			x = map(selectedStars[1].getXg(), -5, 5, border, width - border);
+			y = map(selectedStars[1].getYg(), -5, 5, border, height - border);
+		} else {
+			x = mouseX;
+			y = mouseY;
+		}
+		if (selectedStars[0] != null) {
+			float starX = map(selectedStars[0].getXg(), -5, 5, border, width - border);
+			float starY = map(selectedStars[0].getYg(), -5, 5, border, height - border);
+			line(starX, starY, x, y);
 		}
 	}
 

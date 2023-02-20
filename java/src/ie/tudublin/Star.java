@@ -107,7 +107,7 @@ public class Star {
      * @param other The other star to calculate the distance to
      * @return The distance to the other star
      */
-    public float getDistanceTo(Star other) {
+    public float distanceTo(Star other) {
         return PApplet.dist(Xg, Yg, Zg, other.Xg, other.Yg, other.Zg);
     }
 
