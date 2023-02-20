@@ -87,10 +87,11 @@ public class StarMap extends PApplet {
 			info += "\nDistance from" + star1Name + " to " + star2Name +
 					" is " + distance + " parsecs";
 		} else if (selectedStars[0] != null) {
-			info += "\n" + selectedStars[0].toString();
+			// info += "\n" + selectedStars[0].toString();
+			info += "\n" + selectedStars[0].getDisplayName();
+			info += "\nHabitable:" + (selectedStars[0].isHab() ? "Yes" : "No");
 		}
 
-		circle(border, height - border, 10);
 		text(info, border, height - border);
 	}
 
