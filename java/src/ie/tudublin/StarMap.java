@@ -8,7 +8,10 @@ import processing.data.TableRow;
 
 public class StarMap extends PApplet
 {
+	// PApplet methods
 	ArrayList<Star> stars = new ArrayList<Star>();
+	Star[] selectedStars = new Star[2];
+
 	public void settings()
 	{
 		size(800, 800);
@@ -23,6 +26,35 @@ public class StarMap extends PApplet
 		loadStars();
 		printStars();
 	}
+
+	private int selectedStarsIndex = 0;
+	public void mouseClicked()
+	{
+		circle(mouseX, mouseY, 10);
+		// For each star, check if mouse is hovering over it
+		for (Star star : stars) {
+			float border = width * 0.1f;
+
+			// Get the x and y of the star and distance from mouse
+			float x = map(star.getXg(), -5, 5, border, width - border);
+			float y = map(star.getYg(), -5, 5, border, height - border);
+			float dist = dist(mouseX, mouseY, x, y);
+
+			// If mouse is hovering over star
+			if (dist < star.getAbsMag()/2) {
+				// Reset if at the end
+				if (selectedStarsIndex >= 2) {
+					selectedStarsIndex = 0;
+					selectedStars = new Star[2];
+				}
+
+				// Add star to selected
+				selectedStars[selectedStarsIndex++] = star;
+			}
+		}
+	}
+
+	//
 
 	public void renderStars()
 	{
@@ -80,10 +112,15 @@ public class StarMap extends PApplet
 
 	public void draw()
 	{
+		background(0);
 		strokeWeight(2);
 
 		drawGrid();
 
 		renderStars();
+
 	}
+
+	// StarMap methods
+
 }
