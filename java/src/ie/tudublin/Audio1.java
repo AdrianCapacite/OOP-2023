@@ -44,13 +44,15 @@ public class Audio1 extends PApplet {
         // ab = ai.mix;
 
         // And comment the next two lines out
-        ap = minim.loadFile("heroplanet.mp3", 1024);
+        // ap = minim.loadFile("heroplanet.mp3", 1024);
+        ap = minim.loadFile("segmentationfault.wav");
         ap.play();
         ab = ap.mix;
         colorMode(HSB);
 
         y = height / 2;
         smoothedY = y;
+        smooth();
 
     }
 
@@ -71,7 +73,7 @@ public class Audio1 extends PApplet {
         }
         average = sum / (float) ab.size();
 
-        smoothedAmplitude = lerp(smoothedAmplitude, average, 0.1f);
+        smoothedAmplitude = lerp(smoothedAmplitude, average, 0.50f);
 
         // Lerp samples
         float smoothedab[] = new float[ab.size()];
@@ -137,28 +139,28 @@ public class Audio1 extends PApplet {
                 background(0);
                 noFill();
                 textSize(45);
-                text("Squigly arcs", 50, 50);
+                text("Squiggly Arcs", 50, 50);
                 // float mouseMap = map(mouseX, 0, width, 2.090f, 2.110f);
                 float sinMap = map(sin(off * 1.00001f / (60 * 3)), -1, 1, 2.090f, 2.110f);
                 off += smoothedAmplitude * 10;
                 // text(smoothedAmplitude, 100, 100);
                 // text(mouseMap, 100, 100);
                 for (int i = 0; i < ab.size(); i++) {
-                    float c = map(i, 0, ab.size(), 0, 255);
-                    stroke(c, 255, map(i, 0, ab.size(), 255, 50) + (smoothedAmplitude * 2 * 255));
+                    float hue = map(i, 0, ab.size(), 0, 255);
+                    // stroke(c, 255, map(i, 0, ab.size(), 255, 50) + (smoothedAmplitude * 2 * 255));
+                    float sat = 255;
+                    float val = 255;
+                    float alpha = map(i, 0, ab.size(), 255, 50) + (smoothedAmplitude * 2 * 255);
+                    stroke(hue, sat, val, alpha);
+
                     float f = smoothedab[i] * TWO_PI;
                     f += 0.1f;
-                    // arc(a, b, c, d, start, stop)
-                    // a, b = center of arc
-                    // c, d = width and height of arc
-                    // start = start angle
-                    // stop = stop angle
-                    // float r = ((i * off / (60 * 60) ) % 360);
-                    // float r = sin(i * (off/(60*60)))/1 * PI / 2;
-                    // float r = sin(i * 54.980f) / 1 * PI / 2;
-                    float r = sin(i * sinMap) / 1 * PI / 2;
-                    r += sin(off / (120))/1 * PI / 2;
-                    r += off / (60);
+
+                    float r = sin(i * sinMap) / 1 * PI / 2; // Sine wave rotation
+                    r += sin(off / (120))/1 * PI / 2; // Sine wave rotation
+                    r += off / (60); // 1 rotation per second
+
+                    // Two arcs
                     arc(halfW, halfH, i, i, r - f, r + f);
                     r += PI;
                     arc(halfW, halfH, i, i, r - f, r + f);
