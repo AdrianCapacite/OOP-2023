@@ -69,6 +69,14 @@ Ok now check out this video of 5 visuals you can make today. Pressing the keys 0
 - 4 - The square - Again use the lerped amplitude to control the size of the square. You can also use rectMode(CENTER) to make the x and y parameters of the rect function determine the center of the rect rather than the coordinates of the top left corner
 - 5 - There is no visual associated with 5 in the video, so come up with your own!
 
+### Result
+
+Youtube: OOP-2023 Lab 5
+[![Youtube: OOP-2023 Lab 5](https://img.youtube.com/vi/Jv1jDtovfxM/maxresdefault.jpg)](https://youtu.be/Jv1jDtovfxM)
+
+Youtube: OOP-2023 Lab 5 Squiggly Arcs
+[![Youtube: OOP-2023 Lab 5 Squiggly Arcs](https://img.youtube.com/vi/90xuVuAkDUY/maxresdefault.jpg)](https://youtu.be/90xuVuAkDUY)
+
 
 # Week 4
 - [Recoding of the class](https://tudublin-my.sharepoint.com/:v:/g/personal/bryan_duggan_tudublin_ie/ESgtwCRYdVpEu2R8RmRUJMQBZA1XDVfpVZrfLEhVDeOaBg?e=23d7az) 
