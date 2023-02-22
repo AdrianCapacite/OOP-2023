@@ -136,12 +136,16 @@ public class Audio1 extends PApplet {
             case 5:
                 background(0);
                 noFill();
-                float pi4_10 = 2 * PI / 10;
-                float mouseMap = map(mouseX, 0, width, pi4_10 - 0.010f, pi4_10 + 0.010f);
-                text(mouseMap, 100, 100);
+                textSize(45);
+                text("Squigly arcs", 50, 50);
+                // float mouseMap = map(mouseX, 0, width, 2.090f, 2.110f);
+                float sinMap = map(sin(off * 1.00001f / (60 * 3)), -1, 1, 2.090f, 2.110f);
+                off += smoothedAmplitude * 10;
+                // text(smoothedAmplitude, 100, 100);
+                // text(mouseMap, 100, 100);
                 for (int i = 0; i < ab.size(); i++) {
                     float c = map(i, 0, ab.size(), 0, 255);
-                    stroke(c, 255, 255);
+                    stroke(c, 255, map(i, 0, ab.size(), 255, 50) + (smoothedAmplitude * 2 * 255));
                     float f = smoothedab[i] * TWO_PI;
                     f += 0.1f;
                     // arc(a, b, c, d, start, stop)
@@ -152,8 +156,9 @@ public class Audio1 extends PApplet {
                     // float r = ((i * off / (60 * 60) ) % 360);
                     // float r = sin(i * (off/(60*60)))/1 * PI / 2;
                     // float r = sin(i * 54.980f) / 1 * PI / 2;
-                    float r = sin(i * mouseMap) / 1 * PI / 2;
-                    // r += sin(off / (60*60))/1;
+                    float r = sin(i * sinMap) / 1 * PI / 2;
+                    r += sin(off / (120))/1 * PI / 2;
+                    r += off / (60);
                     arc(halfW, halfH, i, i, r - f, r + f);
                     r += PI;
                     arc(halfW, halfH, i, i, r - f, r + f);
