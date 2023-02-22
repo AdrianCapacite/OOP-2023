@@ -58,10 +58,11 @@ public class Audio1 extends PApplet {
 
     public void draw() {
         // background(0);
-        float halfH = height / 2;
-        float average = 0;
-        float sum = 0;
-        off += 1;
+        float halfH = height / 2; // half height of screen
+        float average = 0; // average of the samples within the buffer
+        float sum = 0; // sum of the samples within the buffer
+        off += 1; // increment the offset
+
         // Calculate sum and average of the samples
         // Also lerp each element of buffer;
         for (int i = 0; i < ab.size(); i++) {
@@ -70,6 +71,12 @@ public class Audio1 extends PApplet {
         average = sum / (float) ab.size();
 
         smoothedAmplitude = lerp(smoothedAmplitude, average, 0.1f);
+
+        // Lerp samples
+        float smoothedab[] = new float[ab.size()];
+        for (int i = 0; i < ab.size(); i++) {
+            smoothedab[i] = lerp(smoothedab[i], ab.get(i), 0.1f);
+        }
 
         float cx = width / 2;
         float cy = height / 2;
@@ -81,12 +88,21 @@ public class Audio1 extends PApplet {
                     // float c = map(ab.get(i), -1, 1, 0, 255);
                     float c = map(i, 0, ab.size(), 0, 255);
                     stroke(c, 255, 255);
-                    float f = ab.get(i) * halfH;
-                    line(i, halfH + f, i, halfH - f);
+                    float f = smoothedab[i] * halfH;
+                    // line(i, halfH + f, i, halfH - f);
+                    line(i, halfH + f, halfH - f, i);
                 }
                 break;
             case 1:
                 background(0);
+                for (int i = 0; i < ab.size(); i++) {
+                    // float c = map(ab.get(i), -1, 1, 0, 255);
+                    float c = map(i, 0, ab.size(), 0, 255);
+                    stroke(c, 255, 255);
+                    float f = smoothedab[i] * halfH;
+                    // float f = ab.get(i) * halfH;
+                    line(i, halfH + f, i, halfH - f);
+                }
                 break;
 
         }
