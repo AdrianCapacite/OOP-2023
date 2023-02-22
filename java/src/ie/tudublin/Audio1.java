@@ -104,7 +104,18 @@ public class Audio1 extends PApplet {
                     line(i, halfH + f, i, halfH - f);
                 }
                 break;
-
+            case 2:
+                background(0);
+                break;
+            case 3:
+                background(0);
+                break;
+            case 4:
+                background(0);
+                break;
+            case 5:
+                background(0);
+                break;
         }
 
         // Other examples we made in the class
