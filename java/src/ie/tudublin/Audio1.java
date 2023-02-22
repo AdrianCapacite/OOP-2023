@@ -135,6 +135,30 @@ public class Audio1 extends PApplet {
                 break;
             case 5:
                 background(0);
+                noFill();
+                float pi4_10 = 2 * PI / 10;
+                float mouseMap = map(mouseX, 0, width, pi4_10 - 0.010f, pi4_10 + 0.010f);
+                text(mouseMap, 100, 100);
+                for (int i = 0; i < ab.size(); i++) {
+                    float c = map(i, 0, ab.size(), 0, 255);
+                    stroke(c, 255, 255);
+                    float f = smoothedab[i] * TWO_PI;
+                    f += 0.1f;
+                    // arc(a, b, c, d, start, stop)
+                    // a, b = center of arc
+                    // c, d = width and height of arc
+                    // start = start angle
+                    // stop = stop angle
+                    // float r = ((i * off / (60 * 60) ) % 360);
+                    // float r = sin(i * (off/(60*60)))/1 * PI / 2;
+                    // float r = sin(i * 54.980f) / 1 * PI / 2;
+                    float r = sin(i * mouseMap) / 1 * PI / 2;
+                    // r += sin(off / (60*60))/1;
+                    arc(halfW, halfH, i, i, r - f, r + f);
+                    r += PI;
+                    arc(halfW, halfH, i, i, r - f, r + f);
+
+                }
                 break;
         }
 
