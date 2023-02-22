@@ -59,6 +59,7 @@ public class Audio1 extends PApplet {
     public void draw() {
         // background(0);
         float halfH = height / 2; // half height of screen
+        float halfW = width / 2; // half width of screen
         float average = 0; // average of the samples within the buffer
         float sum = 0; // sum of the samples within the buffer
         off += 1; // increment the offset
@@ -106,6 +107,18 @@ public class Audio1 extends PApplet {
                 break;
             case 2:
                 background(0);
+                for (int i = 0; i < ab.size(); i++) {
+                    // float c = map(ab.get(i), -1, 1, 0, 255);
+                    float c = map(i, 0, ab.size(), 0, 255);
+                    stroke(c, 255, 255);
+                    float f = smoothedab[i] * height;
+
+                    // line(i, halfH + f, i, halfH - f); // Middle
+                    line(i, 0 + f, i, 0 ); // Top
+                    line(i, height - f, i, height ); // Bottom
+                    line(0 + f, i, 0, i); // Left
+                    line(width - f, i, width, i); // Left
+                }
                 break;
             case 3:
                 background(0);
