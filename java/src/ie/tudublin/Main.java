@@ -31,7 +31,7 @@ public class Main
 	public static void audio1()
 	{
 		String[] a = {"MAIN"};
-        processing.core.PApplet.runSketch( a, new Audio1());
+        processing.core.PApplet.runSketch( a, new SegmentationFault());
     }
 
 	public static void main(String[] args)
