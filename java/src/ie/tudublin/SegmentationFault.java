@@ -81,8 +81,8 @@ public class SegmentationFault extends PApplet {
             smoothedab[i] = lerp(smoothedab[i], ab.get(i), 0.1f);
         }
 
-        float cx = width / 2;
-        float cy = height / 2;
+        // float cx = width / 2;
+        // float cy = height / 2;
 
         switch (mode) {
             case 0:

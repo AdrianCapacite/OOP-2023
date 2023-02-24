@@ -6,12 +6,12 @@ import processing.core.PApplet;
 import processing.data.Table;
 import processing.data.TableRow;
 
-import processing.data.*;
+// import processing.data.*;
 
 public class StarMap extends PApplet {
 
     ArrayList<Star> stars = new ArrayList<Star>();
-    
+
     public float border;
 
     void drawGrid()
@@ -75,7 +75,7 @@ public class StarMap extends PApplet {
                 {
                     second = s;
                     break;
-                } 
+                }
                 else
                 {
                     first = s;
@@ -102,7 +102,7 @@ public class StarMap extends PApplet {
         }
     }
 
-    public void draw() 
+    public void draw()
     {
         background(0);
         drawGrid();
