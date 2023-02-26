@@ -136,10 +136,14 @@ public class SegmentationFault extends PApplet {
                 square(halfW, halfH, smoothedAmplitude * height);
                 break;
             case 5:
-                // background(0, 255);
+            // Translate it further away from the camera
+            // background(0, 255);
                 fill(0,20);
-                rectMode(CORNERS);
-                rect(0,0, width, height);
+                rectMode(CENTER);
+                translate(0, 100, -100);
+                // rect(0,0, width, height);
+                square(halfW, halfH, height * 2);
+                rotateX(PI / 4);
                 noFill();
                 textSize(45);
                 // text("Segmentation Fault", 50, 50);
