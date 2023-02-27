@@ -71,8 +71,8 @@ public class Audio2 extends PApplet{
         //   map1(5, 0, 10, 0, 100) = 50
         //   percent = 0.5 = (5 - 0) / (10 - 0)
         //   result = 50 = 0 + (100 - 0) * 0.5
-        float percent = (value - start1) / (stop1 - start1);
-        float result = start2 + (stop2 - start2) * percent;
+        float percent = (value - start1) / (stop1 - start1); // diff(value, start1) / diff(stop1, start1)
+        float result = start2 + (stop2 - start2) * percent; // start2 + diff(stop2, start2) * percent
 
         return result;
     }
