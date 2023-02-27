@@ -12,8 +12,7 @@ public class Oscilloscope extends PApplet {
     Minim minim; // Minim is a library for audio processing
     AudioPlayer ap; // AudioPlayer is a class in Minim that reads from a file
     AudioBuffer ab; // AudioBuffer is a class in Minim that stores the audio samples
-    // Time buffer, represents the time domain relative to audio buffer
-    float[] tb;
+
     AudioOutput out; // AudioOutput is a class in Minim that writes to the speakers
     Oscil waveL; // Oscil is a class in Minim that can be used to create a sine wave
     Oscil waveR; // Oscil is a class in Minim that can be used to create a sine wave
@@ -39,7 +38,8 @@ public class Oscilloscope extends PApplet {
         waveR = new Oscil(345, 0.5f, Waves.SAW);
 
         // Mix the two waves together to stereo
-        
+        waveL.patch(bal);
+
 
 
 
@@ -104,6 +104,31 @@ public class Oscilloscope extends PApplet {
         OscilXY oscilXY = new OscilXY(this, ab);
         oscilXY.render();
     }
+
+    class ToneInstrument implements Instrument {
+        Oscil sinOsc, lFO;
+        Pan pan;
+
+        ToneInstrument(float oscFreq, float oscAmp, float LFOFreq, float LFOAmp, float setPan) {
+            this.sinOsc = new Oscil(oscFreq, oscAmp, Waves.SINE);
+            this.lFO = new Oscil(LFOFreq, LFOAmp, Waves.SINE);
+
+            this.pan = new Pan(0);
+
+            // Plug in the oscillators to audio and pan
+            sinOsc.patch(pan);
+            lFO.patch(pan.pan);
+        }
+
+        public void noteOn(float duration) {
+            pan.patch(out);
+        }
+
+        public void noteOff() {
+            pan.unpatch(out);
+        }
+    }
+
 }
 
 /**
