@@ -29,19 +29,25 @@ public class Audio2 extends PApplet{
 
     public void setup()
     {
-         colorMode(HSB);
-         background(0);
+        colorMode(HSB);
+        background(0);
+        lerpedBuffer = new float[ab.size()];
     }
 
+    float[] lerpedBuffer;
     public void draw()
     {
         background(0);
         stroke(255);
         float half = height / 2;
         for (int i = 0; i < ab.size(); i++) {
-            line(i,half, i, half + ab.get(i) * half);
+            lerpedBuffer[i] = lerp(lerpedBuffer[i], ab.get(i), 0.5f);
+            // line(i,half, i, half + ab.get(i) * half);
+            float a = lerpedBuffer[i] * height;
+            line(i, half, i, half + a);
         }
     }
+
 
     /**
      * Map a value from one range to another range
