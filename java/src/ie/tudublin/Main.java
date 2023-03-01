@@ -43,6 +43,11 @@ public class Main
         processing.core.PApplet.runSketch( a, new Audio2());
     }
 
+	public static void audio3() {
+		String[] a = {"MAIN"};
+		processing.core.PApplet.runSketch( a, new Audio3());
+	}
+
 	public static void main(String[] args)
 	{
 		System.out.println("Hello world");
@@ -56,6 +61,6 @@ public class Main
 		System.out.println(ps.spell(420));
 		System.out.println(ps.spell(1980));
 
-		// audio2();
+		audio3();
 	}
 }
