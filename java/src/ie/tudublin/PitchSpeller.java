@@ -20,6 +20,10 @@ public class PitchSpeller {
 
     public String spell(float freq) {
         int note = getNote(freq);
+        
+        if (note < 0) {
+            return "Out of range";
+        }
         return noteNames[note % 12];
     }
 }
