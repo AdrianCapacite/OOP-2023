@@ -9,13 +9,12 @@ public class PitchSpeller {
 
     /**
      * Get position of note in musical frequency range
+     * noteIndex = log2(freq / C0) / log2(coeff)
      * @param freq
      * @return
      */
     public int getNote(float freq) {
-        float indexF = (float) (Math.log(freq / C0) / Math.log(coeff));
-        int index = (int) Math.round(indexF);
-        return index;
+        return (int) Math.round((Math.log(freq / C0) / Math.log(coeff)));
     }
 
     public String spell(float freq) {
