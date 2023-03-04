@@ -8,11 +8,17 @@ import ddf.minim.*;
 import processing.core.PApplet;
 
 public class Oscilloscope extends PApplet {
+    int channelOffset = 0;
+    int samples = 3200;
     Minim minim;
     AudioInput ai;
     AudioPlayer ap;
 
     AudioBuffer abMix;
+    AudioBuffer abLeft;
+    AudioBuffer abRight;
+
+    Lerped amplitudeLerped;
 
     public void settings() {
         size(1024, 1024, P3D);
@@ -20,45 +26,101 @@ public class Oscilloscope extends PApplet {
 
     public void setup() {
         // PApplet
-        colorMode(HSB);
+        colorMode(HSB, 360, 100, 100, 100);
+        background(0);
 
         // Minim
         minim = new Minim(this);
-        ai = minim.getLineIn(Minim.STEREO, 44100, 44100, 16); // Stereo, buffer size, sample rate, bit depth
-        ap = minim.loadFile("Circles.wav", 44100);
+        ai = minim.getLineIn(Minim.STEREO, 4410, 44100, 16); // Stereo, buffer size, sample rate, bit depth
+        ap = minim.loadFile("Circles.wav", 3200 + channelOffset);
 
         ap.play();
         abMix = ap.mix;
+        abLeft = ap.left;
+        abRight = ap.right;
 
+        amplitudeLerped = new Lerped(0.1f);
 
     }
 
     public void draw() {
         // Background
-        float avgAmplitude = getAvgAmplitude(abMix);
+        float avgAmplitude = lerpAvgAmpl(abMix);
 
         // Drawing
-        fill(0, 0, 0, 0.1f);
+
+        fill(0, 0, 0, 50);
+        noStroke();
         rect(0, 0, width, height);
 
         rectMode(CORNER);
-        rect(0, 0, 100, height * avgAmplitude/1);
+        fill(0, 100, 100, 100);
+        rect(0, 0, 100, height * avgAmplitude * 10);
 
-        translate(width/2, height/2);
+        fill(0, 0, 0, 100);
+        stroke(0, 100, 100, 100);
+        rect(200, 10, 400, 120);
+        fill(0, 100, 100, 100);
+        textAlign(LEFT, TOP);
+        textSize(100);
+        text(frameRate, 200, 10);
 
+        translate(width / 2, height / 2);
+
+        renderOsci(abMix, abLeft, width / 2);
 
     }
 
-    public void renderOsci(AudioBuffer x, AudioBuffer y) {
+    public void renderOsci(AudioBuffer x, AudioBuffer y, float scale) {
+        float[] samples = x.toArray();
+        float[] samples2 = y.toArray();
 
+        stroke(0, 100, 100, 100);
+        strokeWeight(1);
+        noFill();
+        // beginShape();
+        for (int i = 0; i < samples.length; i++) {
+            // vertex(samples[i] * scale, samples2[i] * scale);
+            point(samples[constrain(i + channelOffset / 2, 0, samples.length - 1)] * scale, samples2[constrain(i - channelOffset /2, 0, samples.length - 1)] * scale);
+        }
+        // endShape();
     }
 
-    private float getAvgAmplitude(AudioBuffer ab) {
+
+    private float lerpAvgAmpl(AudioBuffer ab) {
         float[] samples = ab.toArray();
         float sum = 0;
         for (int i = 0; i < samples.length; i++) {
+        // for (int i = 0; i < 1048; i++) {
+            // sum += ab.get(i);
             sum += samples[i];
         }
-        return sum / samples.length;
+        amplitudeLerped.setTarget(sum / samples.length);
+        amplitudeLerped.update();
+        return amplitudeLerped.getLerped();
     }
+
+    private class Lerped {
+        float lerped;
+        float target;
+        float speed;
+
+        public Lerped(float speed) {
+            this.speed = speed;
+        }
+
+        public void update() {
+            lerped = lerp(lerped, target, speed);
+        }
+
+        public void setTarget(float target) {
+            this.target = target;
+        }
+
+        public float getLerped() {
+            return lerped;
+        }
+    }
+
+
 }
