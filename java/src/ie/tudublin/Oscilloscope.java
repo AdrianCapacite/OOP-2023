@@ -33,7 +33,7 @@ public class Oscilloscope extends PApplet {
         // Minim
         minim = new Minim(this);
         ai = minim.getLineIn(Minim.STEREO, 4410, 44100, 16); // Stereo, buffer size, sample rate, bit depth
-        ap = minim.loadFile("Reconstruct.wav", 3200 + channelOffset);
+        ap = minim.loadFile("Asteroids.wav", 3200 + channelOffset);
 
         ap.play();
         abMix = ap.mix;
