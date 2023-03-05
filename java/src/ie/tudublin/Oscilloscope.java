@@ -28,11 +28,12 @@ public class Oscilloscope extends PApplet {
         // PApplet
         colorMode(HSB, 360, 100, 100, 100);
         background(0);
+        smooth();
 
         // Minim
         minim = new Minim(this);
         ai = minim.getLineIn(Minim.STEREO, 4410, 44100, 16); // Stereo, buffer size, sample rate, bit depth
-        ap = minim.loadFile("Circles.wav", 3200 + channelOffset);
+        ap = minim.loadFile("Reconstruct.wav", 3200 + channelOffset);
 
         ap.play();
         abMix = ap.mix;
@@ -44,11 +45,6 @@ public class Oscilloscope extends PApplet {
     }
 
     public void draw() {
-        // Background
-        float avgAmplitude = lerpAvgAmpl(abMix);
-
-        // Drawing
-
         blendMode(BLEND);
         fill(0, 0, 0, 50);
         noStroke();
@@ -68,26 +64,26 @@ public class Oscilloscope extends PApplet {
 
         translate(width / 2, height / 2);
 
-        renderOsci(abMix, abLeft, width / 2);
+        renderOsci(abLeft, abRight, width / 2);
 
     }
 
-    public void renderOsci(AudioBuffer x, AudioBuffer y, float scale) {
-        float[] samples = x.toArray();
-        float[] samples2 = y.toArray();
+    public void renderOsci(AudioBuffer abX, AudioBuffer abY, float scale) {
+        float[] samples = abX.toArray();
+        float[] samples2 = abY.toArray();
 
-        shearX(-(PI * 32 / 128));
+        // shearX(-(PI * 32 / 128));
         blendMode(ADD);
         stroke(142, 86, 85/4, 100);
         strokeWeight(1);
         noFill();
-        // beginShape();
+        beginShape(LINES);
         for (int i = 0; i < samples.length; i++) {
-            // vertex(samples[i] * scale, samples2[i] * scale);
-            // point(samples[constrain(i + channelOffset / 2, 0, samples.length - 1)] * scale, samples2[constrain(i - channelOffset /2, 0, samples.length - 1)] * scale);
-            fuzzyPoint(samples[constrain(i + channelOffset / 2, 0, samples.length - 1)] * scale, samples2[constrain(i - channelOffset /2, 0, samples.length - 1)] * scale, 1, 16);
+            float x = samples[constrain(i + channelOffset / 2, 0, samples.length - 1)] * scale;
+            float y = samples2[constrain(i - channelOffset /2, 0, samples.length - 1)] * scale;
+            fuzzyPoint(x, y, 1, 16);
         }
-        // endShape();
+        endShape();
     }
 
     public void fuzzyPoint(float x, float y, float sd, int numPoints) {
@@ -99,9 +95,9 @@ public class Oscilloscope extends PApplet {
 
             float dx = cos(angle) * distance;
             float dy = + sin(angle) * distance;
-            float x1 = x * 2 + dx + dy * (PI * 32 / 128);
+            float x1 = x + dx; /* (PI * 32 / 128);*/
             float y1 = y + dy;
-            point(x1 , y1);
+            vertex(x1 , 0 - y1);
         }
     }
 
