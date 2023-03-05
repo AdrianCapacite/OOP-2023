@@ -49,21 +49,22 @@ public class Oscilloscope extends PApplet {
 
         // Drawing
 
+        blendMode(BLEND);
         fill(0, 0, 0, 50);
         noStroke();
         rect(0, 0, width, height);
 
         rectMode(CORNER);
         fill(0, 100, 100, 100);
-        rect(0, 0, 100, height * avgAmplitude * 10);
+        // rect(0, 0, 100, height * avgAmplitude * 10);
 
         fill(0, 0, 0, 100);
         stroke(0, 100, 100, 100);
-        rect(200, 10, 400, 120);
+        // rect(200, 10, 400, 120);
         fill(0, 100, 100, 100);
         textAlign(LEFT, TOP);
         textSize(100);
-        text(frameRate, 200, 10);
+        // text(frameRate, 200, 10);
 
         translate(width / 2, height / 2);
 
@@ -75,15 +76,33 @@ public class Oscilloscope extends PApplet {
         float[] samples = x.toArray();
         float[] samples2 = y.toArray();
 
-        stroke(0, 100, 100, 100);
+        shearX(-(PI * 32 / 128));
+        blendMode(ADD);
+        stroke(142, 86, 85/4, 100);
         strokeWeight(1);
         noFill();
         // beginShape();
         for (int i = 0; i < samples.length; i++) {
             // vertex(samples[i] * scale, samples2[i] * scale);
-            point(samples[constrain(i + channelOffset / 2, 0, samples.length - 1)] * scale, samples2[constrain(i - channelOffset /2, 0, samples.length - 1)] * scale);
+            // point(samples[constrain(i + channelOffset / 2, 0, samples.length - 1)] * scale, samples2[constrain(i - channelOffset /2, 0, samples.length - 1)] * scale);
+            fuzzyPoint(samples[constrain(i + channelOffset / 2, 0, samples.length - 1)] * scale, samples2[constrain(i - channelOffset /2, 0, samples.length - 1)] * scale, 1, 16);
         }
         // endShape();
+    }
+
+    public void fuzzyPoint(float x, float y, float sd, int numPoints) {
+        for (int i = 0; i < numPoints; i++) {
+            float angle = random(TWO_PI);
+
+            float val = randomGaussian();
+            float distance = val * sd;  // Scale the gaussian random number by standard deviation and means);
+
+            float dx = cos(angle) * distance;
+            float dy = + sin(angle) * distance;
+            float x1 = x * 2 + dx + dy * (PI * 32 / 128);
+            float y1 = y + dy;
+            point(x1 , y1);
+        }
     }
 
 
