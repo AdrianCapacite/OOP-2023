@@ -32,13 +32,19 @@ public class Oscilloscope extends PApplet {
 
         // Minim
         minim = new Minim(this);
-        ai = minim.getLineIn(Minim.STEREO, 4410, 44100, 16); // Stereo, buffer size, sample rate, bit depth
-        ap = minim.loadFile("Asteroids.wav", 3200 + channelOffset);
+        ai = minim.getLineIn(Minim.STEREO, 800, 48000, 16); // Stereo, buffer size, sample rate, bit depth
+        ap = minim.loadFile("10 Reconstruct.wav", 3200);
 
-        ap.play();
-        abMix = ap.mix;
-        abLeft = ap.left;
-        abRight = ap.right;
+        if (true) {
+            ap.play();
+            abMix = ap.mix;
+            abLeft = ap.left;
+            abRight = ap.right;
+        } else {
+            abMix = ai.mix;
+            abLeft = ai.left;
+            abRight = ai.right;
+        }
 
         amplitudeLerped = new Lerped(0.1f);
 
@@ -60,7 +66,7 @@ public class Oscilloscope extends PApplet {
         fill(0, 100, 100, 100);
         textAlign(LEFT, TOP);
         textSize(100);
-        // text(frameRate, 200, 10);
+        text(frameRate, 200, 10);
 
         translate(width / 2, height / 2);
 
@@ -74,14 +80,25 @@ public class Oscilloscope extends PApplet {
 
         // shearX(-(PI * 32 / 128));
         blendMode(ADD);
-        stroke(142, 86, 85/4, 100);
+        stroke(142, 86, 85/16, 100);
         strokeWeight(1);
         noFill();
+        beginShape();
+        for (int i = 0; i < samples.length; i++) {
+            float x = samples[i] * scale;
+            float y = samples2[i] * scale;
+            vertex(x, 0-y);
+        }
+        endShape();
         beginShape(LINES);
         for (int i = 0; i < samples.length; i++) {
-            float x = samples[constrain(i + channelOffset / 2, 0, samples.length - 1)] * scale;
-            float y = samples2[constrain(i - channelOffset /2, 0, samples.length - 1)] * scale;
-            fuzzyPoint(x, y, 1, 16);
+            // vertex(samples[i] * scale, samples2[i] * scale);
+            // float x = samples[constrain(i + channelOffset / 2, 0, samples.length - 1)] * scale;
+            // float y = samples2[constrain(i - channelOffset /2, 0, samples.length - 1)] * scale;
+            float x = samples[i] * scale;
+            float y = samples2[i] * scale;
+            fuzzyPoint(x, 0-y, 2, 32);
+            // vertex(samples[constrain(i+1, 0, samples.length-1)] * scale, samples2[constrain(i+1, 0, samples.length-1)] * scale);
         }
         endShape();
     }
@@ -97,7 +114,7 @@ public class Oscilloscope extends PApplet {
             float dy = + sin(angle) * distance;
             float x1 = x + dx; /* (PI * 32 / 128);*/
             float y1 = y + dy;
-            vertex(x1 , 0 - y1);
+            vertex(x1 , y1);
         }
     }
 

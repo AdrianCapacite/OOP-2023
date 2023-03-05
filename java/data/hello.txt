@@ -1,0 +1,28 @@
+﻿╔╤══════════════════════════╤╗
+║│    OSCILLOSCOPE MUSIC    │║
+╠╪══════════════════════════╪╣
+║│    Jerobeam Fenderson    │║
+╚╪══════════════════════════╪╝
+ │ WAV files for your scope │
+ └──────────────────────────┘
+
+Plug the audio signal into your oscilloscope in XY mode to see music videos.
+
+To get a stable and clear image it is recommended to use an audio output without lowcuts or any effects, and to set your audio interface to it's highest possible sampling rate. These WAV files have been rendered at 192kHz, except Dots, which has been rendered at 96kHz.
+
+left channel:	horizontal deflection
+right channel:	vertical deflection
+
+Tracklist:
+01 Dots
+02 Lines
+03 Blocks
+04 Circles
+05 Spirals
+06 Planets
+07 Asteroids
+08 Shrooms
+09 Deconstruct
+10 Reconstruct
+
+oscilloscopemusic.com | Jerobeam Fenderson | 2016
