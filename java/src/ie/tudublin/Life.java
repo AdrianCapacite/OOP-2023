@@ -8,7 +8,7 @@ public class Life extends PApplet
 	LifeBoard board;
 	public void settings()
 	{
-		size(500, 500);
+		size(1024, 1024);
 	}
 
 	public void setup() {
@@ -19,10 +19,10 @@ public class Life extends PApplet
 	}
 
 	public void draw()
-	{	
+	{
 		background(0);
 		board.render();
 		board.applyRules();
-		
+
 	}
 }
