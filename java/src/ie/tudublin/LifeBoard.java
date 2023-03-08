@@ -1,5 +1,7 @@
 package ie.tudublin;
 
+import java.util.FormatFlagsConversionMismatchException;
+
 import processing.core.PApplet;
 
 public class LifeBoard {
@@ -20,6 +22,14 @@ public class LifeBoard {
         else
         {
             return false;
+        }
+    }
+
+    public void setCell(int row, int col, boolean value)
+    {
+        if (row >= 0 && row < size && col >= 0 && col < size)
+        {
+            board[row][col] = value;
         }
     }
 
@@ -105,6 +115,24 @@ public class LifeBoard {
         }
     }
 
+    public void clear() {
+        for(int row = 0 ; row < size ; row ++)
+        {
+            for (int col = 0 ; col < size ; col ++)
+            {
+                board[row][col] = false;
+            }
+        }
+    }
+
+    public void setBoard(boolean[][] board) {
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                this.board[row][col] = board[row][col];
+            }
+        }
+    }
+
     public void render()
     {
         for(int row = 0 ; row < size ; row ++)
@@ -137,4 +165,11 @@ public class LifeBoard {
         this.size = size;
     }
 
+    class Patterns {
+        public boolean[][] glider = {
+            {false, true, false},
+            {false, false, true},
+            {true, true, true}
+        };
+    }
 }

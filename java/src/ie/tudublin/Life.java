@@ -42,10 +42,10 @@ public class Life extends PApplet
                 board.randomise();
                 break;
             case '2':
-                // board.clear();
+                board.clear();
                 break;
             case '3':
-                // Set corss
+                
                 break;
         }
 
