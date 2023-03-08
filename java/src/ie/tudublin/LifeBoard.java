@@ -30,12 +30,10 @@ public class LifeBoard {
         {
             for (int j = -1 ; j <= 1 ; j ++)
             {
-                if (! (i == 0) && (j == 0))
+                if (i == 0 && j == 0) continue;
+                if (getCell(row + i, col + j))
                 {
-                    if (getCell(i, j))
-                    {
-                        count ++;
-                    }
+                    count ++;
                 }
             }
         }
@@ -78,9 +76,12 @@ public class LifeBoard {
                 // dead with 3 neighboiurs comes to life
             }
         }
-        boolean[][] temp = board;
-        board = next;
-        next = temp;
+        // Copy next to board
+        for (int col = 0; col < size; col++) {
+            for (int row = 0; row < size; row++) {
+                board[col][row] = next[col][row];
+            }
+        }
     }
 
     public LifeBoard(int size, PApplet p)
