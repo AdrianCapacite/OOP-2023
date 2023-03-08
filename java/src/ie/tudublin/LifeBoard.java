@@ -5,7 +5,7 @@ import processing.core.PApplet;
 public class LifeBoard {
     boolean[][] board;
     boolean[][] next;
-    
+
     private int size;
     PApplet p;
 
@@ -38,7 +38,7 @@ public class LifeBoard {
                     }
                 }
             }
-        } 
+        }
         return count;
     }
 
@@ -59,7 +59,7 @@ public class LifeBoard {
                     {
                         next[row][col] = false;
                     }
-                    
+
                 }
                 else
                 {
@@ -108,7 +108,7 @@ public class LifeBoard {
     {
         for(int row = 0 ; row < size ; row ++)
         {
-            p.stroke(255);
+            p.stroke(255/2);
             for (int col = 0 ; col < size ; col ++)
             {
                 float x = col * cellWidth;
@@ -116,7 +116,7 @@ public class LifeBoard {
 
                 if (board[row][col])
                 {
-                    p.fill(0, 255, 0);
+                    p.fill(255);
                 }
                 else
                 {
@@ -134,6 +134,6 @@ public class LifeBoard {
 
     public void setSize(int size) {
         this.size = size;
-    } 
-    
+    }
+
 }
