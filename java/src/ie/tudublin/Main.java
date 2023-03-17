@@ -2,6 +2,10 @@ package ie.tudublin;
 
 public class Main
 {
+	static void flowLines() {
+		String a = "MAIN";
+		processing.core.PApplet.runSketch(new String[] {a}, new FlowLines());
+	}
 	static void fftVisual() {
 		String a = "MAIN";
 		processing.core.PApplet.runSketch(new String[] {a}, new FFTVisual());
@@ -19,7 +23,8 @@ public class Main
 		System.out.println("Program Started");
 		// base();
 		// perlinLines();
-		fftVisual();
+		// fftVisual();
+		flowLines();
 		System.out.println("Program Ended");
 	}
 }
