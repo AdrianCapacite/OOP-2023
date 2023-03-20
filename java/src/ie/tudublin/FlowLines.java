@@ -1,5 +1,8 @@
 package ie.tudublin;
 
+import java.util.ArrayList;
+import java.util.Vector;
+
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -13,15 +16,16 @@ import processing.core.PVector;
  */
 public class FlowLines extends PApplet{
     PVector[][] vectors;
+
     int vecWidth;
     int vecHeight;
     int vecSize; // size of each vector
     public void settings(){
         fullScreen(P3D);
-        colorMode(HSB);
     }
 
     public void setup(){
+        colorMode(HSB);
         background(0);
         vecSize = 20; // 20 pixels for each vector
         vecWidth = width / vecSize;
@@ -34,7 +38,8 @@ public class FlowLines extends PApplet{
         background(0);
 
         // Generate a grid of vectors
-        generateVectors(frameCount);
+        generateVectors(0.1f, millis() * 0.0001f);
+        System.out.println(millis() * 0.0001f);
 
         // Draw the vectors
         stroke(255);
@@ -45,12 +50,12 @@ public class FlowLines extends PApplet{
      * Generates a grid of vectors using Perlin noise.
      * @param t
      */
-    void generateVectors(int t) {
+    void generateVectors(float scale, float t) {
         for (int i = 0; i < vecHeight; i++) {
             for (int ii = 0; ii < vecWidth; ii++) {
-                float x = map(noise(i * 0.1f, ii * 0.1f, t * 0.01f), 0, 1, -1, 1);
-                float y = map(noise(i * 0.1f, ii * 0.1f, t * 0.01f), 0, 1, -1, 1);
-                vectors[i][ii] = new PVector(x, y).normalize();
+                noiseDetail(2, 0.5f);
+                float a = map(noise(i * scale, ii * scale, t), 0, 1, 0, TWO_PI);
+                vectors[ii][i] = new PVector(cos(a), sin(a)).normalize();
             }
         }
     }
@@ -58,13 +63,63 @@ public class FlowLines extends PApplet{
     void renderVectors() {
         for (int i = 0; i < vecHeight; i++) {
             for (int ii = 0; ii < vecWidth; ii++) {
-                PVector v = vectors[i][ii];
+                PVector v = vectors[ii][i];
                 // Draw a line from the center of the vector to the edge
-                float x = v.x * vecSize / 2;
-                float y = v.y * vecSize / 2;
-                line(ii,i, x, y);
+                float x1 = ii * vecSize + vecSize / 2;
+                float y1 = i * vecSize + vecSize / 2;
+                float x2 = x1 + v.x * vecSize / 2;
+                float y2 = y1 + v.y * vecSize / 2;
+                line(x1,y1, x2, y2);
+
             }
         }
     }
 
+    /**
+     * Class represents a line in the flow field.
+     * Rendering a line takes a snapshot of the flow field at the time of creation.
+     * The line then follows the flow field until it reaches the edge of the screen.
+     */
+    class Line {
+        PVector start;
+        PVector velocity;
+        ArrayList<PVector> points;
+
+        Line(int x, int y) {
+            start = new PVector(x, y);
+            points = new ArrayList<PVector>();
+            points.add(start);
+        }
+
+        public void render() {
+            // Draw line
+            stroke(0, 255, 255);
+
+            // Draw points
+            beginShape();
+            for (PVector p : points) {
+                vertex(p.x, p.y);
+            }
+            endShape();
+
+        }
+
+        public void update(PVector[][] flowField) {
+            // Get vector closest to current position
+            {
+                PVector closestVec = flowField[0][0];
+                for (int i = 0; i < flowField.length; i++) {
+                    for (int ii = 0; ii < flowField[i].length; ii++) {
+                        PVector v = flowField[i][ii];
+                        if (v.dist(start) < closestVec.dist(start)) {
+                            closestVec = v;
+                        }
+                    }
+                }
+            }
+            // Apply vector to velocity
+            // Add velocity to current pos to get next
+            // Add next to points
+        }
+    }
 }
