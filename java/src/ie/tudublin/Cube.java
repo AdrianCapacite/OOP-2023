@@ -16,13 +16,14 @@ public class Cube {
         p.noFill();
         p.pushMatrix();
         p.translate(x, y);
-        
+
         p.rotateY(rot);
         p.rotateX(rot);
 
-        
-        p.box(size);
-        p.popMatrix();
+
+        // p.box(size);
+        // Create the faces of cubes
+        p.square(0, 0, size);
 
     }
 
