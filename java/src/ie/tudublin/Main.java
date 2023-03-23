@@ -1,30 +1,32 @@
 package ie.tudublin;
 
-public class Main
-{
+public class Main {
 	static void flowLines() {
 		String a = "MAIN";
-		processing.core.PApplet.runSketch(new String[] {a}, new FlowLines());
+		processing.core.PApplet.runSketch(new String[] { a }, new FlowLines());
 	}
+
 	static void fftVisual() {
 		String a = "MAIN";
-		processing.core.PApplet.runSketch(new String[] {a}, new FFTVisual());
+		processing.core.PApplet.runSketch(new String[] { a }, new FFTVisual());
 	}
+
 	static void perlinLines() {
 		String a = "MAIN";
-		processing.core.PApplet.runSketch(new String[] {a}, new PerlinLines());
+		processing.core.PApplet.runSketch(new String[] { a }, new PerlinLines());
 	}
-	static void base(){
+
+	static void base() {
 		String a = "MAIN";
-		processing.core.PApplet.runSketch(new String[] {a}, new Base());
+		processing.core.PApplet.runSketch(new String[] { a }, new Base());
 	}
-	public static void main(String[] args)
-	{
+
+	public static void main(String[] args) {
 		System.out.println("Program Started");
 		// base();
-		// perlinLines();
+		perlinLines();
 		// fftVisual();
-		flowLines();
+		// flowLines();
 		System.out.println("Program Ended");
 	}
 }
