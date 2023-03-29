@@ -25,7 +25,7 @@ public class FFTVisual extends PApplet {
     public void setup() {
         // Minim stuff
         minim = new Minim(this);
-        ap = minim.loadFile("heroplanet.mp3", 1024);
+        ap = minim.loadFile("Toto - Hold The Line.wav", 1024);
         ap.play();
 
         fftLin = new FFT(ap.bufferSize(), ap.sampleRate());
@@ -33,7 +33,8 @@ public class FFTVisual extends PApplet {
 
         fftLog = new FFT(ap.bufferSize(), ap.sampleRate());
         // logAverages(int minBandwidth, int bandsPerOctave)
-        fftLog.logAverages(22, 3); // 22 Hz, 3 bands per octave, 30 bands
+        // fftLog.logAverages(22, 3); // 22 Hz, 3 bands per octave, 30 bands
+        fftLog.logAverages(60, 3);
 
         // Processing stuff
         height3 = height / 3;
@@ -61,8 +62,8 @@ public class FFTVisual extends PApplet {
 
         // draw the full spectrum
         {
-            noFill();
-            int w = (int) (width / fftLin.specSize());
+            // noFill();
+            int w = (int) (width * 2 / fftLin.specSize());
             for (int i = 0; i < fftLin.specSize(); i++) {
                 // if the mouse is over the spectrum value we're about to draw
                 // set the stroke color to red
@@ -72,6 +73,7 @@ public class FFTVisual extends PApplet {
                 } else {
                     stroke(255);
                 }
+
                 rect(i * w, height3, i * w + w, height3 - fftLin.getBand(i) * spectrumScale);
             }
 
@@ -96,6 +98,8 @@ public class FFTVisual extends PApplet {
 
                     fill(255, 128);
                     text("Linear Average Center Frequency: " + centerFrequency, 5, height23 - 25);
+                    // Index
+                    text("Band index: " + i, 5, height23 - 50);
 
                     fill(255, 0, 0);
                 } else {
@@ -126,21 +130,23 @@ public class FFTVisual extends PApplet {
                 // that can be passed to getBand. in this case, we simply use the
                 // index as coordinates for the rectangle we draw to represent
                 // the average.
-                int xl = (int) fftLog.freqToIndex(lowFreq);
-                int xr = (int) fftLog.freqToIndex(highFreq);
+                int xl = (int) fftLog.freqToIndex(lowFreq) * 2;
+                int xr = (int) fftLog.freqToIndex(highFreq) * 2;
 
                 // if the mouse is inside of this average's rectangle
                 // print the center frequency and set the fill color to red
                 if (mouseX >= xl && mouseX < xr) {
                     fill(255, 128);
                     text("Logarithmic Average Center Frequency: " + centerFrequency, 5, height - 25);
+                    text("Band index: " + i, 5, height - 50);
+                    text("Band value: " + fftLog.getAvg(i), 5, height - 75);
                     fill(255, 0, 0);
                 } else {
                     fill(255);
                 }
                 // draw a rectangle for each average, multiply the value by spectrumScale so we
                 // can see it better
-                // rect(xl, height, xr, height - fftLog.getAvg(i) * spectrumScale);
+                rect(xl, height, xr, height - fftLog.getAvg(i) * spectrumScale);
 
 
 
