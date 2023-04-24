@@ -1,6 +1,12 @@
 package ie.tudublin;
 
 public class Main {
+
+	static void horse() {
+		String a = "MAIN";
+		processing.core.PApplet.runSketch(new String[] { a }, new Horse());
+	}
+
 	static void flowLines() {
 		String a = "MAIN";
 		processing.core.PApplet.runSketch(new String[] { a }, new FlowLines());
@@ -25,8 +31,9 @@ public class Main {
 		System.out.println("Program Started");
 		// base();
 		// perlinLines();
-		fftVisual();
+		// fftVisual();
 		// flowLines();
+		horse();
 		System.out.println("Program Ended");
 	}
 }
