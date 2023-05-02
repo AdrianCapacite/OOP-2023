@@ -30,10 +30,10 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("Program Started");
 		// base();
-		// perlinLines();
+		perlinLines();
 		// fftVisual();
 		// flowLines();
-		horse();
+		// horse();
 		System.out.println("Program Ended");
 	}
 }
